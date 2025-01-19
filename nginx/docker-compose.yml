@@ -1,0 +1,24 @@
+services:
+    nginx:
+        image: nginx:alpine
+        container_name: nginx
+        ports:
+            - '80:80'
+            - '443:443'
+        volumes:
+            - ./conf.d:/etc/nginx/conf.d
+            - /etc/letsencrypt:/etc/letsencrypt:ro
+            - ./logs:/var/log/nginx
+
+        deploy:
+            resources:
+                limits:
+                    cpus: '1'
+                    memory: 256M
+        restart: unless-stopped
+        networks:
+            - app-network
+
+networks:
+    app-network:
+        external: true

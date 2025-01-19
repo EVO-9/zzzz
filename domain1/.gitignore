@@ -1,0 +1,57 @@
+# Node.js dependencies and debug files
+node_modules/
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Nuxt build output
+.nuxt/
+dist/
+.output/
+.data/
+.nitro/
+.cache/
+
+# Local environment files
+.env
+.env.*
+!.env.example
+
+# Log files
+logs/
+*.log
+
+# PM2 process logs (if using PM2)
+.pm2/
+
+# Misc
+.DS_Store
+Thumbs.db
+
+# IDE specific files
+.idea/
+
+# Test and coverage output
+.nyc_output/
+coverage/
+
+# Nuxt specific
+*.local
+
+# My Setup specific
+.temp/
+/vendor/
+**/vendor/
+
+# Database directory
+database/
+
+# Ignore all .conf files
+*.conf
+
+# Exclude template .conf files from being ignored
+!nginx.nuxt.conf.template
+!nginx.directus.conf.template

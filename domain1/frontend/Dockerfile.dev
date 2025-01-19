@@ -1,0 +1,30 @@
+FROM node:18-alpine
+
+# Install required packages
+RUN apk add --no-cache \
+    curl \
+    bash \
+    netcat-openbsd
+
+WORKDIR /app
+
+# Install dependencies
+COPY package*.json ./
+RUN npm install
+
+# Copy source code
+COPY . .
+
+# Set environment variables
+ENV HOST=0.0.0.0
+ENV PORT=3000
+
+# Build the Nuxt.js application for production
+RUN npm run build
+
+# Expose port
+EXPOSE 3000
+
+# Start the app in production mode
+CMD ["npm", "run", "start"]
+

@@ -1,0 +1,51 @@
+services:
+    directus:
+        build: ./backend
+        container_name: ${SITE}_backend
+        ports:
+            - '${DIRECTUS_PORT}:8055'
+        environment:
+            KEY: ${DIRECTUS_KEY}
+            SECRET: ${DIRECTUS_SECRET}
+            ADMIN_EMAIL: ${DIRECTUS_ADMIN_EMAIL}
+            ADMIN_PASSWORD: ${DIRECTUS_ADMIN_PASSWORD}
+            DB_DATABASE: ${MYSQL_DATABASE}
+            DB_USER: ${MYSQL_USER}
+            DB_PASSWORD: ${MYSQL_PASSWORD}
+            PUBLIC_URL: ${DIRECTUS_PUBLIC_URL}
+            HOST: 0.0.0.0
+        volumes:
+            - ./backend/uploads:/directus/uploads
+            - ./backend/extensions:/directus/extensions
+            - ./scripts:/scripts
+        user: 'node'
+        healthcheck:
+            test: ['CMD', 'curl', '-f', 'http://localhost:8055/']
+            interval: 30s
+            timeout: 10s
+            retries: 5
+            start_period: 120s
+        networks:
+            - app-network
+
+    frontend:
+        build:
+            context: ./frontend
+            dockerfile: Dockerfile.prod
+        container_name: ${SITE}_frontend
+        environment:
+            - NODE_ENV=production
+        ports:
+            - '${NUXT_PORT}:3000'
+        healthcheck:
+            test: ['CMD', 'curl', '-f', 'http://localhost:3000/']
+            interval: 30s
+            timeout: 10s
+            retries: 5
+            start_period: 120s
+        networks:
+            - app-network
+
+networks:
+    app-network:
+        external: true
